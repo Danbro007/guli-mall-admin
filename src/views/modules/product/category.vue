@@ -143,8 +143,8 @@ export default {
     },
     batchSave() {
       this.$http({
-        url: this.$http.adornUrl("/product/category/update/sort"),
-        method: "post",
+        url: this.$http.adornUrl("/product/category/sort"),
+        method: "put",
         data: this.$http.adornData(this.updateNodes, false)
       }).then(({ data }) => {
         this.$message({

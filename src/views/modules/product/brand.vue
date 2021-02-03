@@ -45,8 +45,8 @@
             v-model="scope.row.showStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            :active-value="1"
-            :inactive-value="0"
+            :active-value="true"
+            :inactive-value="false"
             @change="updateBrandStatus(scope.row)"
           ></el-switch>
         </template>
@@ -194,6 +194,7 @@ export default {
         this.dataListLoading = false;
       });
     },
+    // 修改品牌显示状态
     updateBrandStatus(data) {
       console.log("最新信息", data);
       let { brandId, showStatus } = data;
@@ -252,7 +253,7 @@ export default {
           method: "delete",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {
-          if (data && data.code === 0) {
+          if (data && data.code === 2000) {
             this.$message({
               message: "操作成功",
               type: "success",

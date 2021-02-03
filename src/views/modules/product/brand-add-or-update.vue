@@ -60,6 +60,7 @@ export default {
         firstLetter: "",
         sort: 0
       },
+      requestMethod:"",
       dataRule: {
         name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
         logo: [
@@ -120,13 +121,14 @@ export default {
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
-            if (data && data.code === 0) {
-              this.dataForm.name = data.brand.name;
-              this.dataForm.logo = data.brand.logo;
-              this.dataForm.descript = data.brand.descript;
-              this.dataForm.showStatus = data.brand.showStatus;
-              this.dataForm.firstLetter = data.brand.firstLetter;
-              this.dataForm.sort = data.brand.sort;
+            if (data && data.code === 2000) {
+              const brand = data.data
+              this.dataForm.name = brand.name;
+              this.dataForm.logo = brand.logo;
+              this.dataForm.descript = brand.descript;
+              this.dataForm.showStatus = brand.showStatus;
+              this.dataForm.firstLetter = brand.firstLetter;
+              this.dataForm.sort = brand.sort;
             }
           });
         }
@@ -136,11 +138,16 @@ export default {
     dataFormSubmit() {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
+          if(this.dataForm.brandId){
+             this.requestMethod = "put"
+          }else{
+            this.requestMethod = "post"
+          }
           this.$http({
             url: this.$http.adornUrl(
-              `/product/brand/${!this.dataForm.brandId ? "save" : "update"}`
+              `/product/brand`
             ),
-            method: "post",
+            method:this.requestMethod,
             data: this.$http.adornData({
               brandId: this.dataForm.brandId || undefined,
               name: this.dataForm.name,
@@ -151,13 +158,14 @@ export default {
               sort: this.dataForm.sort
             })
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 2000) {
               this.$message({
                 message: "操作成功",
                 type: "success",
                 duration: 1500,
                 onClose: () => {
-                  this.visible = false;
+                  this.visible = false
+                  this.requestMethod = ""
                   this.$emit("refreshDataList");
                 }
               });

@@ -2,7 +2,7 @@ import http from '@/utils/httpRequest.js'
 export function policy() {
    return  new Promise((resolve,reject)=>{
         http({
-            url: http.adornUrl("/third-part/oss/image"),
+            url: http.adornUrl("/third-part/oss/policy"),
             method: "get",
             params: http.adornParams({})
         }).then(({ data }) => {

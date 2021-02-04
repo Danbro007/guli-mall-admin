@@ -86,6 +86,7 @@
             _self.dataObj.key = response.data.dir + getUUID()+'_${filename}';
             _self.dataObj.dir = response.data.dir;
             _self.dataObj.host = response.data.host;
+            console.log(_self.dataObj)
             resolve(true)
           }).catch(err => {
             reject(false)

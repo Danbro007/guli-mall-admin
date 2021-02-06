@@ -121,7 +121,7 @@ export default {
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
-            if (data && data.code === 2000) {
+            if (data && data.code === 0) {
               const brand = data.data
               this.dataForm.name = brand.name;
               this.dataForm.logo = brand.logo;
@@ -158,7 +158,7 @@ export default {
               sort: this.dataForm.sort
             })
           }).then(({ data }) => {
-            if (data && data.code === 2000) {
+            if (data && data.code === 0) {
               this.$message({
                 message: "操作成功",
                 type: "success",

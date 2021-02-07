@@ -26,8 +26,8 @@
           v-model="dataForm.showStatus"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          :active-value="1"
-          :inactive-value="0"
+          :active-value="true"
+          :inactive-value="false"
         ></el-switch>
       </el-form-item>
       <el-form-item label="检索首字母" prop="firstLetter">

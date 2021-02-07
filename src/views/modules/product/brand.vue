@@ -139,7 +139,7 @@ export default {
       //{"brandId":1,"catelogId":2}
       this.popCatelogSelectVisible =false;
       this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/save"),
+        url: this.$http.adornUrl("/product/categorybrandrelation"),
         method: "post",
         data: this.$http.adornData({brandId:this.brandId,catelogId:this.catelogPath[this.catelogPath.length-1]}, false)
       }).then(({ data }) => {
@@ -148,8 +148,8 @@ export default {
     },
     deleteCateRelationHandle(id, brandId) {
       this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/delete"),
-        method: "post",
+        url: this.$http.adornUrl("/product/categorybrandrelation"),
+        method: "delete",
         data: this.$http.adornData([id], false)
       }).then(({ data }) => {
         this.getCateRelation();

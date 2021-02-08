@@ -36,7 +36,7 @@
           <el-table-column prop="attrId" header-align="center" align="center" label="id"></el-table-column>
           <el-table-column prop="attrName" header-align="center" align="center" label="属性名"></el-table-column>
           <el-table-column
-            v-if="attrtype == 1"
+            v-if="attrtype == true"
             prop="searchType"
             header-align="center"
             align="center"
@@ -47,6 +47,7 @@
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
+        
           <el-table-column prop="valueType" header-align="center" align="center" label="值类型">
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.valueType==0">单选</el-tag>
@@ -78,9 +79,9 @@
             align="center"
             label="所属分组"
           ></el-table-column>
-          <el-table-column v-if="attrtype == 1" prop="showDesc" header-align="center" align="center" label="快速展示">
+          <el-table-column v-if="attrtype == true" prop="showDesc" header-align="center" align="center" label="快速展示">
             <template slot-scope="scope">
-              <i class="el-icon-success" v-if="scope.row.showDesc==1"></i>
+              <i class="el-icon-success" v-if="scope.row.showDesc==true"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
@@ -225,7 +226,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/product/attr/delete"),
+          url: this.$http.adornUrl("/product/attr"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {

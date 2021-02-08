@@ -5,7 +5,12 @@
     :visible.sync="visible"
     @closed="dialogClose"
   >
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" label-width="120px">
+    <el-form
+      :model="dataForm"
+      :rules="dataRule"
+      ref="dataForm"
+      label-width="120px"
+    >
       <!--       @keyup.enter.native="dataFormSubmit()" -->
       <el-form-item label="属性名" prop="attrName">
         <el-input v-model="dataForm.attrName" placeholder="属性名"></el-input>
@@ -45,7 +50,11 @@
         <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
       </el-form-item>
       <el-form-item label="所属分组" prop="attrGroupId" v-if="type == 1">
-        <el-select ref="groupSelect" v-model="dataForm.attrGroupId" placeholder="请选择">
+        <el-select
+          ref="groupSelect"
+          v-model="dataForm.attrGroupId"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in attrGroups"
             :key="item.attrGroupId"
@@ -54,22 +63,22 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="可检索" prop="searchType" v-if="type == 1">
+      <el-form-item label="可检索" prop="searchType" v-if="type == true">
         <el-switch
           v-model="dataForm.searchType"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          :active-value="1"
-          :inactive-value="0"
+          :active-value="true"
+          :inactive-value="false"
         ></el-switch>
       </el-form-item>
-      <el-form-item label="快速展示" prop="showDesc" v-if="type == 1">
+      <el-form-item label="快速展示" prop="showDesc" v-if="type == true">
         <el-switch
           v-model="dataForm.showDesc"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          :active-value="1"
-          :inactive-value="0"
+          :active-value="true"
+          :inactive-value="false"
         ></el-switch>
       </el-form-item>
       <el-form-item label="启用状态" prop="enable">
@@ -77,8 +86,8 @@
           v-model="dataForm.enable"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          :active-value="1"
-          :inactive-value="0"
+          :active-value="true"
+          :inactive-value="false"
         ></el-switch>
       </el-form-item>
     </el-form>
@@ -94,6 +103,7 @@ import CategoryCascader from "../common/category-cascader";
 export default {
   data() {
     return {
+      requestMehtod: "",
       visible: false,
       dataForm: {
         attrId: 0,
@@ -106,67 +116,67 @@ export default {
         enable: 1,
         catelogId: "",
         attrGroupId: "",
-        showDesc: 0
+        showDesc: 0,
       },
       catelogPath: [],
       attrGroups: [],
       dataRule: {
         attrName: [
-          { required: true, message: "属性名不能为空", trigger: "blur" }
+          { required: true, message: "属性名不能为空", trigger: "blur" },
         ],
         searchType: [
           {
             required: true,
             message: "是否需要检索不能为空",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         valueType: [
           {
             required: true,
             message: "值类型不能为空",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         icon: [
-          { required: true, message: "属性图标不能为空", trigger: "blur" }
+          { required: true, message: "属性图标不能为空", trigger: "blur" },
         ],
         attrType: [
           {
             required: true,
             message: "属性类型不能为空",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         enable: [
           {
             required: true,
             message: "启用状态不能为空",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         catelogId: [
           {
             required: true,
             message: "需要选择正确的三级分类数据",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         showDesc: [
           {
             required: true,
             message: "快速展示不能为空",
-            trigger: "blur"
-          }
-        ]
-      }
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
-  props:{
-    type:{
+  props: {
+    type: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   watch: {
     catelogPath(path) {
@@ -181,10 +191,11 @@ export default {
             `/product/attrgroup/list/${path[path.length - 1]}`
           ),
           method: "get",
-          params: this.$http.adornParams({ page: 1, limit: 10000000 })
+          params: this.$http.adornParams({ page: 1, limit: 10000000 }),
         }).then(({ data }) => {
           if (data && data.code === 0) {
             this.attrGroups = data.page.list;
+
           } else {
             this.$message.error(data.msg);
           }
@@ -195,7 +206,7 @@ export default {
         this.$message.error("请选择正确的分类");
         this.dataForm.catelogId = "";
       }
-    }
+    },
   },
   components: { CategoryCascader },
   methods: {
@@ -211,23 +222,24 @@ export default {
               `/product/attr/info/${this.dataForm.attrId}`
             ),
             method: "get",
-            params: this.$http.adornParams()
+            params: this.$http.adornParams(),
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.attrName = data.attr.attrName;
-              this.dataForm.searchType = data.attr.searchType;
-              this.dataForm.valueType = data.attr.valueType;
-              this.dataForm.icon = data.attr.icon;
-              this.dataForm.valueSelect = data.attr.valueSelect.split(";");
-              this.dataForm.attrType = data.attr.attrType;
-              this.dataForm.enable = data.attr.enable;
-              this.dataForm.catelogId = data.attr.catelogId;
-              this.dataForm.showDesc = data.attr.showDesc;
+              console.log(data.data)
+              this.dataForm.attrName = data.data.attrName;
+              this.dataForm.searchType = data.data.searchType;
+              this.dataForm.valueType = data.data.valueType;
+              this.dataForm.icon = data.data.icon;
+              this.dataForm.valueSelect = data.data.valueSelect.split(";");
+              this.dataForm.attrType = data.data.attrType;
+              this.dataForm.enable = data.data.enable;
+              this.dataForm.catelogId = data.data.catelogId;
+              this.dataForm.showDesc = data.data.showDesc;
               //attrGroupId
               //catelogPath
-              this.catelogPath = data.attr.catelogPath;
+              this.catelogPath = data.data.catelogPath;
               this.$nextTick(() => {
-                this.dataForm.attrGroupId = data.attr.attrGroupId;
+                this.dataForm.attrGroupId = data.data.attrGroupId;
               });
             }
           });
@@ -236,13 +248,16 @@ export default {
     },
     // 表单提交
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs["dataForm"].validate((valid) => {
         if (valid) {
+          if (this.dataForm.attrId) {
+            this.requestMehtod = "put";
+          } else {
+            this.requestMehtod = "post";
+          }
           this.$http({
-            url: this.$http.adornUrl(
-              `/product/attr/${!this.dataForm.attrId ? "save" : "update"}`
-            ),
-            method: "post",
+            url: this.$http.adornUrl(`/product/attr/`),
+            method: this.requestMehtod,
             data: this.$http.adornData({
               attrId: this.dataForm.attrId || undefined,
               attrName: this.dataForm.attrName,
@@ -254,8 +269,8 @@ export default {
               enable: this.dataForm.enable,
               catelogId: this.dataForm.catelogId,
               attrGroupId: this.dataForm.attrGroupId,
-              showDesc: this.dataForm.showDesc
-            })
+              showDesc: this.dataForm.showDesc,
+            }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
@@ -265,10 +280,10 @@ export default {
                 onClose: () => {
                   this.visible = false;
                   this.$emit("refreshDataList");
-                }
+                },
               });
             } else {
-              this.$message.error(data.msg);
+              this.$message.error(data.message);
             }
           });
         }
@@ -277,7 +292,7 @@ export default {
     //dialogClose
     dialogClose() {
       this.catelogPath = [];
-    }
-  }
+    },
+  },
 };
 </script>

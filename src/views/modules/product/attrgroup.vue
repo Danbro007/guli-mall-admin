@@ -177,7 +177,6 @@ export default {
     },
     // 删除
     deleteHandle(id) {
-      debugger
       var ids = id
         ? [id]
         : this.dataListSelections.map(item => {

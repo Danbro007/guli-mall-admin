@@ -356,7 +356,7 @@ export default {
               message: "菜单删除成功",
               type: "success"
             });
-                        debugger
+                        
             //刷新出新的菜单
             this.getMenus();
             //设置需要默认展开的菜单

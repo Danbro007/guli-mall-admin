@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-      action="danbro-mall.oss-cn-shanghai.aliyuncs.com"
+      action="http://danbro-mall.oss-cn-shanghai.aliyuncs.com"
       :data="dataObj"
       list-type="picture-card"
       :file-list="fileList"

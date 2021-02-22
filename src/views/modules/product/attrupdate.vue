@@ -131,11 +131,8 @@ export default {
                 : attr.showDesc,
             });
           });
-          debugger
           this.dataResp.baseAttrs.push(attrArray);
         });
-        debugger
-        console.log("------------")
         console.log(this.dataResp.baseAttrs)
         this.dataResp.attrGroups = data.data;
       });

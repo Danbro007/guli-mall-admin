@@ -156,8 +156,8 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/coupon/seckillskurelation/delete"),
-          method: "post",
+          url: this.$http.adornUrl("/coupon/seckillskurelation"),
+          method: "delete",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {
           if (data && data.code === 0) {

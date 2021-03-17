@@ -19,6 +19,7 @@
           type="datetime"
           placeholder="每日开始时间"
           v-model="dataForm.startTime"
+          value-format="yyyy-MM-dd HH:mm:ss"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="每日结束时间" prop="endTime">
@@ -26,6 +27,7 @@
           type="datetime"
           placeholder="每日结束时间"
           v-model="dataForm.endTime"
+                    value-format="yyyy-MM-dd HH:mm:ss"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="启用状态" prop="status">
@@ -114,9 +116,7 @@ export default {
               name: this.dataForm.name,
               startTime: this.dataForm.startTime,
               endTime: this.dataForm.endTime,
-              status: this.dataForm.status,
-              createTime: new Date(),
-            }),
+              status: this.dataForm.status            }),
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
